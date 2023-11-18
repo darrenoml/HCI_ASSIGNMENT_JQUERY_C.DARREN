@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@panzoom/panzoom/dist/panzoom.min.js"></script>
+    <title>JQuery Web</title>
+    <style>
+      .small-img {
+        max-width: 100px;
+        height: 100px;
+      }
+      .large-img {
+        max-width: 400px;
+        height: 400px;
+      }
+      .input-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        #my-contact {
+            padding: 8px;
+            margin-right: 10px;
+            width: 200px; /* Adjust width as needed */
+            box-sizing: border-box;
+        }
+
+        #my-name {
+            padding: 8px;
+            margin-right: 10px;
+            width: 200px; /* Adjust width as needed */
+            box-sizing: border-box;
+        }
+
+        #my-email {
+            padding: 8px;
+            margin-right: 10px;
+            width: 200px; /* Adjust width as needed */
+            box-sizing: border-box;
+        }
+
+        #my-feedback {
+            font-weight: bold;
+        }
+
+        #email-feedback {
+            font-weight: bold;
+        }
+    </style>
+  </head>
+  <body>
+    <!-- functionality -->
+    <!-- 1. ketika default, A akan hide -->
+    <!-- 2. ketika question di click, A akan muncul -->
+    <h1>Accordion FAQs</h1>
+    <div id="container-question-1">
+      <div id="question-1" style="background-color: red; color: white">
+        Question 1
+      </div>
+
+      <div id="answer-1" hidden="true" style="border: 3px solid red">
+        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Autem eum,
+        expedita vitae ex veritatis excepturi deserunt placeat velit eius
+        laborum earum consequatur dolorem magnam neque, aut, iste in at
+        sapiente.
+      </div>
+    </div>
+    <br>
+    <div id="container-question-2">
+        <div id="question-2" style="background-color: red; color: white">
+          Question 2
+        </div>
+  
+        <div id="answer-2" hidden="true" style="border: 3px solid red">
+          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Autem eum,
+          expedita vitae ex veritatis excepturi deserunt placeat velit eius
+          laborum earum consequatur dolorem magnam neque, aut, iste in at
+          sapiente.
+        </div>
+    </div>
+<h1>Interactive Contact Form</h1>
+<div class="input-container">
+    <form action="">
+        <input type="text" id="my-name" placeholder="Enter Your Name"> <br>
+        <input type="number" id="my-contact" placeholder="Enter Phone Number">
+        <span id="my-feedback"></span> <br>
+        <input type="email" id="my-email" placeholder="Enter Email">
+        <span id="email-feedback"></span> <br><br>
+        <input type="submit" value="Submit">
+    </form>
+</div>
+
+<h1>Image Zoomer</h1>
+   
+    <img id="my-image" src="pfp1.jpg" alt="my image" class="small-img" />
+    <script>
+      // jquery for question 1
+      $("#question-1").click(function () {
+        $("#answer-1").fadeToggle();
+      });
+
+      $("#question-2").click(function () {
+        $("#answer-2").fadeToggle();
+      });
+
+      $("#my-contact").keypress(function () {
+        const val = $("#my-contact").val();
+        if (val.length >= 5 && val.length < 13) {
+          $("#my-feedback").text("Valid number");
+        } else {
+          $("#my-feedback").text("Invalid number");
+        }
+      });
+
+      $("#my-email").on("input", function () {
+        const email = $(this).val();
+        const isValidEmail = /\S+@\S+\.\S+/.test(email); // Basic email format validation
+        if (isValidEmail) {
+            $("#email-feedback").text("Valid email");
+        } else {
+            $("#email-feedback").text("Invalid email");
+        }
+    });
+
+
+      $("#my-menu-1").hover(function () {
+        $("#my-menu-detail-1").toggle();
+      });
+
+      // little bit dirty code
+      let clicked = false;
+      $("#my-image").click(function () {
+        const myImg = document.getElementById("my-image");
+        const panZoom = Panzoom(myImg);
+        const parent = myImg.parentElement;
+        if (clicked == false) {
+          $("#my-image").removeClass("small-img");
+          $("#my-image").addClass("large-img");
+          parent.addEventListener("wheel", panZoom.zoomWithWheel);
+        } else {
+          $("#my-image").removeClass("large-img");
+          $("#my-image").addClass("small-img");
+          parent.removeEventListener("wheel", panZoom.zoomWithWheel);
+        }
+        clicked = !clicked;
+      });
+    </script>
+  </body>
+</html>
